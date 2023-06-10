@@ -1,0 +1,38 @@
+{
+  "name": "webscraping2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server-dairy.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server-dairy.js",
+    "build": "npm i"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JMP-APZH/webscrap2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JMP-APZH/webscrap2/issues"
+  },
+  "homepage": "https://github.com/JMP-APZH/webscrap2#readme",
+  "dependencies": {
+    "axios": "^1.4.0",
+    "cheerio": "^1.0.0-rc.12",
+    "cors": "^2.8.5",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "flowbite": "^1.6.5",
+    "flowbite-react": "^0.4.4",
+    "nodemon": "^2.0.22",
+    "puppeteer": "^20.2.1"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.23",
+    "tailwindcss": "^3.3.2"
+  }
+}
