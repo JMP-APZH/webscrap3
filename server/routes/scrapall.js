@@ -195,6 +195,9 @@ router.get('/scrapedairy2', (req, res) => {
       await new Promise((resolve) => setTimeout(resolve, 1000));  
       
       }
+
+      await browser.close();
+      
       return items
     }
     
