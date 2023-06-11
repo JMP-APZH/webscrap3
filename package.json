@@ -28,7 +28,7 @@
     "flowbite": "^1.6.5",
     "flowbite-react": "^0.4.4",
     "nodemon": "^2.0.22",
-    "puppeteer": "^20.2.1"
+    "puppeteer": "^20.5.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.14",
