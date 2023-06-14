@@ -178,7 +178,7 @@ router.get('/scrapedairy2', (req, res) => {
     
     while (itemTargetCount > items.length) {
       items = await page.evaluate(() => {
-        const items = Array.from(document.querySelectorAll("#desc > div"));
+        const items = Array.from(document.querySelectorAll(".product-list-affichage-mobile > title"));
         return items.map((item) => item.innerText);
         // return items.map((item) => ({
         //   name: item.querySelector('a').innerText,
@@ -196,8 +196,8 @@ router.get('/scrapedairy2', (req, res) => {
       
       }
 
-      await browser.close();
       
+
       return items
     }
     
@@ -208,13 +208,28 @@ router.get('/scrapedairy2', (req, res) => {
       headless: false,
     });
 
-    const page = await browser.newPage();
-    await page.goto('https://martinique.123-click.com/store/frais');
-  
-    const items = await scrapeInfiniteScrollItems(page, 100);
+    try {
+      const page = await browser.newPage();
+      await page.goto('https://martinique.123-click.com/store/frais');
     
-    console.log('JSON Data', JSON.stringify(items))
-    // fs.writeFileSync('items.json', JSON.stringify(items));
+      const items = await scrapeInfiniteScrollItems(page, 100);
+
+      console.log('JSON Data', JSON.stringify(items))
+      fs.writeFileSync('items.json', JSON.stringify(items));
+      // await browser.close();
+
+      // const items = Array.from(document.querySelectorAll("div"));
+      //   console.log(items.map((item) => item.innerText))
+      //   return items.map((item) => item.innerText);
+      
+    } catch (e) {
+      console.error(e);
+      res.send(`Something went wrong while running Puppeteer: ${e}`)
+    } finally {
+      await browser.close();
+    }
+
+    
 
   })();
 

@@ -2,11 +2,13 @@
   "name": "webscraping3",
   "version": "1.0.0",
   "description": "",
-  "main": "server-dairy.js",
+  "main": "mainserver.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon server-dairy.js",
-    "build": "npm i"
+    "dev": "nodemon mainserver.js",
+    "build": "npm i",
+    "preinstall":"cd $(pwd)",
+    "start": "nodemon mainserver.js"
   },
   "repository": {
     "type": "git",

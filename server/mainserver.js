@@ -14,7 +14,7 @@ app.options('*', cors())
 app.set('view engine', 'ejs')
 
 app.get('/', (req, res) => {
-    console.log('Main Server here on port 5001')
+    // console.log('Main Server here on port 5001')
     res.render('index', { text: "Text from render working great" })
 })
 
