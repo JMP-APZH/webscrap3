@@ -178,7 +178,7 @@ router.get('/scrapedairy2', (req, res) => {
     
     while (itemTargetCount > items.length) {
       items = await page.evaluate(() => {
-        const elements = Array.from(document.querySelectorAll("div.desc-small-text"));
+        const elements = Array.from(document.querySelectorAll("div.desc a"));
         // const items = Array.from(document.querySelectorAll("div"));
         // const items = Array.from(document.querySelector("div > .product-left"));
         return elements.map(element => element.innerText);
