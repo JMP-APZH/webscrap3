@@ -181,7 +181,7 @@ router.get('/scrapedairy2', (req, res) => {
         const elements = Array.from(document.querySelectorAll("div.desc-small-text"));
         // const items = Array.from(document.querySelectorAll("div"));
         // const items = Array.from(document.querySelector("div > .product-left"));
-        return elements.map((element) => element.innerText);
+        return elements.map(element => element.innerText);
         // return items.map((item) => ({
         //   name: item.querySelector('a').innerText,
         // }))
@@ -237,7 +237,7 @@ router.get('/scrapedairy2', (req, res) => {
       
     } catch (e) {
       console.error(e);
-      res.send(`Something went wrong while running Puppeteer: ${e}`)
+      res.status(500).send(`Something went wrong while running Puppeteer: ${e}`)
     } finally {
       await browser.close();
     }
