@@ -195,11 +195,11 @@ router.get('/scrapedairy2', (req, res) => {
       await page.waitForFunction(
         `document.body.scrollHeight > ${previousHeight}`
         );
-      // await new Promise((resolve) => setTimeout(resolve, 1000));  
+      await new Promise((resolve) => setTimeout(resolve, 5000));  
       
       }
-
-      return items
+      let uniqueItems = [...new Set(items)]
+      return uniqueItems
     }
     
   // }
@@ -227,6 +227,7 @@ router.get('/scrapedairy2', (req, res) => {
       
       res.json(items);
       console.log('JSON Data from server 2:', JSON.stringify(items))
+      console.log('Number of items in Dairy array: ', items.length)
       fs.writeFileSync('items.json', JSON.stringify(items));
       await browser.close();
       
