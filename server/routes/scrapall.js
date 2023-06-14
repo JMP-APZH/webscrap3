@@ -178,10 +178,10 @@ router.get('/scrapedairy2', (req, res) => {
     
     while (itemTargetCount > items.length) {
       items = await page.evaluate(() => {
-        const items = Array.from(document.querySelectorAll("div.desc-small-text"));
+        const elements = Array.from(document.querySelectorAll("div.desc-small-text"));
         // const items = Array.from(document.querySelectorAll("div"));
         // const items = Array.from(document.querySelector("div > .product-left"));
-        return items.map((item) => item.innerText);
+        return elements.map((element) => element.innerText);
         // return items.map((item) => ({
         //   name: item.querySelector('a').innerText,
         // }))
@@ -200,7 +200,7 @@ router.get('/scrapedairy2', (req, res) => {
 
       
 
-      return JSON.stringify(items)
+      return items
     }
     
   // }
@@ -229,6 +229,7 @@ router.get('/scrapedairy2', (req, res) => {
       console.log('JSON Data', JSON.stringify(items))
       fs.writeFileSync('items.json', JSON.stringify(items));
       await browser.close();
+      res.json(items);
 
       // const items = Array.from(document.querySelectorAll("div"));
       //   console.log(items.map((item) => item.innerText))
