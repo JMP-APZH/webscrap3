@@ -10,12 +10,13 @@ const Dairy2 = () => {
     axios.get('http://localhost:5001/scrapall/scrapedairy2')
     // axios.get('https://webscrap972.onrender.com/scrapall/scrapedairy2')
       .then(response => {
-        console.log(error.response.data)
+        
         console.log('data from response from client dairy 2:', response.data)
         setData(response.data)
       })
       .catch(error => {
-        console.log(error);
+        // console.log(error);
+        console.log('error axios detailed', error.response.data)
       });
   };
 
