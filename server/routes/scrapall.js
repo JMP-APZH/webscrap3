@@ -178,7 +178,9 @@ router.get('/scrapedairy2', (req, res) => {
     
     while (itemTargetCount > items.length) {
       items = await page.evaluate(() => {
-        const items = Array.from(document.querySelectorAll(".product-list-affichage-mobile > title"));
+        const items = Array.from(document.querySelectorAll("div.desc-small-text"));
+        // const items = Array.from(document.querySelectorAll("div"));
+        // const items = Array.from(document.querySelector("div > .product-left"));
         return items.map((item) => item.innerText);
         // return items.map((item) => ({
         //   name: item.querySelector('a').innerText,
@@ -192,7 +194,7 @@ router.get('/scrapedairy2', (req, res) => {
       await page.waitForFunction(
         `document.body.scrollHeight > ${previousHeight}`
         );
-      await new Promise((resolve) => setTimeout(resolve, 1000));  
+      // await new Promise((resolve) => setTimeout(resolve, 1000));  
       
       }
 
@@ -206,6 +208,16 @@ router.get('/scrapedairy2', (req, res) => {
   (async () => {
     const browser = await puppeteer.launch({
       headless: false,
+      args: [
+        "--disable-setuid-sandbox",
+        "--no-sandbox",
+        "--single-process",
+        "--no-zygote",
+      ],
+      executablePath:
+      process.env.NODE_ENV === "production"
+        ? process.env.PUPPETEER_EXECUTABLE_PATH
+        : puppeteer.executablePath(),
     });
 
     try {
@@ -216,7 +228,7 @@ router.get('/scrapedairy2', (req, res) => {
 
       console.log('JSON Data', JSON.stringify(items))
       fs.writeFileSync('items.json', JSON.stringify(items));
-      // await browser.close();
+      await browser.close();
 
       // const items = Array.from(document.querySelectorAll("div"));
       //   console.log(items.map((item) => item.innerText))
