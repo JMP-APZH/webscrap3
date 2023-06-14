@@ -178,10 +178,11 @@ router.get('/scrapedairy2', (req, res) => {
     
     while (itemTargetCount > items.length) {
       items = await page.evaluate(() => {
-        const elements = Array.from(document.querySelectorAll("div.desc a"));
+        const elements = Array.from(document.querySelectorAll('.desc a'));
         // const items = Array.from(document.querySelectorAll("div"));
         // const items = Array.from(document.querySelector("div > .product-left"));
-        return elements.map(element => element.innerText);
+        // console.log('Data InnerText from server 1:', elements.map(element => element.innerText))
+        return elements.map(element => element.innerText.replace(/\n|\t| /g, ''));
         // return items.map((item) => ({
         //   name: item.querySelector('a').innerText,
         // }))
@@ -224,7 +225,7 @@ router.get('/scrapedairy2', (req, res) => {
     
       const items = await scrapeInfiniteScrollItems(page, 100);
 
-      console.log('JSON Data', JSON.stringify(items))
+      console.log('JSON Data from server 2:', JSON.stringify(items))
       fs.writeFileSync('items.json', JSON.stringify(items));
       await browser.close();
       res.json(items);
