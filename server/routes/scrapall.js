@@ -200,7 +200,7 @@ router.get('/scrapedairy2', (req, res) => {
 
       
 
-      return items
+      return JSON.stringify(items)
     }
     
   // }
