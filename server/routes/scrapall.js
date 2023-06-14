@@ -224,11 +224,12 @@ router.get('/scrapedairy2', (req, res) => {
       await page.goto('https://martinique.123-click.com/store/frais');
     
       const items = await scrapeInfiniteScrollItems(page, 100);
-
+      
+      res.json(items);
       console.log('JSON Data from server 2:', JSON.stringify(items))
       fs.writeFileSync('items.json', JSON.stringify(items));
       await browser.close();
-      res.json(items);
+      
       // res.JSON.stringify(items)
 
       // const items = Array.from(document.querySelectorAll("div"));
