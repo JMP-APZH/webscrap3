@@ -229,6 +229,7 @@ router.get('/scrapedairy2', (req, res) => {
       fs.writeFileSync('items.json', JSON.stringify(items));
       await browser.close();
       res.json(items);
+      // res.JSON.stringify(items)
 
       // const items = Array.from(document.querySelectorAll("div"));
       //   console.log(items.map((item) => item.innerText))
