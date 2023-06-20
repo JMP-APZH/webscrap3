@@ -7,8 +7,8 @@ const Dairy2 = () => {
   const [data, setData] = useState([]);
 
   const handleClick = () => {
-    axios.get('http://localhost:5001/scrapall/scrapedairy2')
-    // axios.get('https://webscrap972.onrender.com/scrapall/scrapedairy2')
+    // axios.get('http://localhost:5001/scrapall/scrapedairy2')
+    axios.get('https://webscrap972.onrender.com/scrapall/scrapedairy2')
       .then(response => {
         
         console.log('data from response from client dairy 2:', response.data)
@@ -36,7 +36,11 @@ const Dairy2 = () => {
           <div className='grid grid-cols-2 bg-white h-auto'>
             {data.map((item, index) => (
               <div key={index} className="text-center p-4 border m-2">
-              <p> {item} </p>
+              <div>
+                  <p> {item.title} </p>
+                  <p> {item.image}</p>
+              </div>
+              
                 {/* <div className='flex w-24 absolute '>
                   <img
                     className="p-4"

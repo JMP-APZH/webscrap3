@@ -178,7 +178,8 @@ router.get('/scrapedairy2', (req, res) => {
     
     while (itemTargetCount > items.length) {
       items = await page.evaluate(() => {
-        const elements = Array.from(document.querySelectorAll('.desc a'));
+        // const elements = Array.from(document.querySelectorAll('.desc a'));
+        const elements = Array.from(document.querySelectorAll('.owl-lazy'));
         // const items = Array.from(document.querySelectorAll("div"));
         // const items = Array.from(document.querySelector("div > .product-left"));
         // console.log('Data InnerText from server 1:', elements.map(element => element.innerText))
