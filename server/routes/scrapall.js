@@ -207,7 +207,7 @@ router.get('/scrapedairy2', (req, res) => {
   
   (async () => {
     const browser = await puppeteer.launch({
-      headless: false,
+      // headless: false,
       args: [
         "--disable-setuid-sandbox",
         "--no-sandbox",
