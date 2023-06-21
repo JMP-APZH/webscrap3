@@ -16,7 +16,7 @@ const Dairy2 = () => {
       })
       .catch(error => {
         // console.log(error);
-        console.log('error axios detailed', error.response.data)
+        console.log('error axios detailed', error
       });
   };
 
