@@ -171,86 +171,86 @@ headers: {
 });
 
 
-router.get('/scrapedairy2', (req, res) => {
+// router.get('/scrapedairy2', (req, res) => {
 
-  const scrapeInfiniteScrollItems = async (page, itemTargetCount) => {
+//   const scrapeInfiniteScrollItems = async (page, itemTargetCount) => {
 
-    let items = [];
+//     let items = [];
     
-    while (itemTargetCount > items.length) {
-      items = await page.evaluate(() => {
-        // const elements = Array.from(document.querySelectorAll('.desc a'));
-        const elements = Array.from(document.querySelectorAll('.owl-lazy'));
-        // const items = Array.from(document.querySelectorAll("div"));
-        // const items = Array.from(document.querySelector("div > .product-left"));
-        // console.log('Data InnerText from server 1:', elements.map(element => element.innerText))
-        return elements.map(element => element.innerText.replace(/\n|\t| /g, ''));
-        // return items.map((item) => ({
-        //   name: item.querySelector('a').innerText,
-        // }))
-      })
-        // console.log(items.length)
-        // console.log(items)
+//     while (itemTargetCount > items.length) {
+//       items = await page.evaluate(() => {
+//         // const elements = Array.from(document.querySelectorAll('.desc a'));
+//         const elements = Array.from(document.querySelectorAll('.owl-lazy'));
+//         // const items = Array.from(document.querySelectorAll("div"));
+//         // const items = Array.from(document.querySelector("div > .product-left"));
+//         // console.log('Data InnerText from server 1:', elements.map(element => element.innerText))
+//         return elements.map(element => element.innerText.replace(/\n|\t| /g, ''));
+//         // return items.map((item) => ({
+//         //   name: item.querySelector('a').innerText,
+//         // }))
+//       })
+//         // console.log(items.length)
+//         // console.log(items)
 
-      previousHeight = await page.evaluate("document.body.scrollHeight");
-      await page.evaluate("window.scrollTo(0, document.body.scrollHeight)");
-      await page.waitForFunction(
-        `document.body.scrollHeight > ${previousHeight}`
-        );
-      await new Promise((resolve) => setTimeout(resolve, 5000));  
+//       previousHeight = await page.evaluate("document.body.scrollHeight");
+//       await page.evaluate("window.scrollTo(0, document.body.scrollHeight)");
+//       await page.waitForFunction(
+//         `document.body.scrollHeight > ${previousHeight}`
+//         );
+//       await new Promise((resolve) => setTimeout(resolve, 5000));  
       
-      }
-      let uniqueItems = [...new Set(items)]
-      return uniqueItems
-    }
+//       }
+//       let uniqueItems = [...new Set(items)]
+//       return uniqueItems
+//     }
     
-  // }
+//   // }
   
-  (async () => {
-    const browser = await puppeteer.launch({
-      // headless: false,
-      args: [
-        "--disable-setuid-sandbox",
-        "--no-sandbox",
-        "--single-process",
-        "--no-zygote",
-      ],
-      // executablePath:
-      // process.env.NODE_ENV === "production"
-      //   ? process.env.PUPPETEER_EXECUTABLE_PATH
-      //   : puppeteer.executablePath(),
-    });
+//   (async () => {
+//     const browser = await puppeteer.launch({
+//       // headless: false,
+//       args: [
+//         "--disable-setuid-sandbox",
+//         "--no-sandbox",
+//         "--single-process",
+//         "--no-zygote",
+//       ],
+//       // executablePath:
+//       // process.env.NODE_ENV === "production"
+//       //   ? process.env.PUPPETEER_EXECUTABLE_PATH
+//       //   : puppeteer.executablePath(),
+//     });
 
-    try {
-      const page = await browser.newPage();
-      await page.goto('https://martinique.123-click.com/store/frais');
+//     try {
+//       const page = await browser.newPage();
+//       await page.goto('https://martinique.123-click.com/store/frais');
     
-      const items = await scrapeInfiniteScrollItems(page, 100);
+//       const items = await scrapeInfiniteScrollItems(page, 100);
       
-      res.json(items);
-      console.log('JSON Data from server 2:', JSON.stringify(items))
-      console.log('Number of items in Dairy array: ', items.length)
-      fs.writeFileSync('items.json', JSON.stringify(items));
-      await browser.close();
+//       res.json(items);
+//       console.log('JSON Data from server 2:', JSON.stringify(items))
+//       console.log('Number of items in Dairy array: ', items.length)
+//       fs.writeFileSync('items.json', JSON.stringify(items));
+//       await browser.close();
       
-      // res.JSON.stringify(items)
+//       // res.JSON.stringify(items)
 
-      // const items = Array.from(document.querySelectorAll("div"));
-      //   console.log(items.map((item) => item.innerText))
-      //   return items.map((item) => item.innerText);
+//       // const items = Array.from(document.querySelectorAll("div"));
+//       //   console.log(items.map((item) => item.innerText))
+//       //   return items.map((item) => item.innerText);
       
-    } catch (e) {
-      console.error(e);
-      res.status(500).send(`Something went wrong while running Puppeteer: ${e}`)
-    } finally {
-      await browser.close();
-    }
+//     } catch (e) {
+//       console.error(e);
+//       res.status(500).send(`Something went wrong while running Puppeteer: ${e}`)
+//     } finally {
+//       await browser.close();
+//     }
 
     
 
-  })();
+//   })();
 
-});
+// });
 
 // For infinite scroll scrap:
 
