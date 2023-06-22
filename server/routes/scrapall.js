@@ -388,6 +388,7 @@ async function fetchAdditionalPages(url) {
       // price: prices[i]
     });
   }
+  console.log(names.count())
 }
      
 // Function to extract the URL of the next page
