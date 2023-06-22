@@ -387,7 +387,9 @@ function printProducts(names, prices) {
     console.log('Price:', prices[i]);
     console.log('----------------------');
     console.log('Number of items:', names.length);
+    
   }
+  res.send(names);
 }
 
 // Function to extract the URL of the next page
