@@ -357,9 +357,9 @@ async function fetchAdditionalPages(url) {
     console.log('from ProductNames fetch: ', productNames)
 
     // Scraping product prices
-    const productPrices = $('p.price-full')
-    .map((_, element) => $(element).text())
-    .get();
+    // const productPrices = $('p.price-full')
+    // .map((_, element) => $(element).text())
+    // .get();
 
     // Adding scraped data to the final array
     addDataToFinalArray(productNames, productPrices);
