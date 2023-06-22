@@ -344,7 +344,8 @@ axios.get(initialUrl, {
           
       })
 
-      printProducts(nom, prix);
+      printProducts(dairy3);
+      // console.log('from PrintProducts: ', dairy3)
 
       })
 
@@ -366,9 +367,9 @@ axios.get(initialUrl, {
 async function fetchAdditionalPages(url) {
   try {
     const response = await axios.get(url, {
-      // headers: {
-      //     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3',
-      // },
+      headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3',
+      },
       });
     if (response.status === 200) {
     //   const html = response.data;
@@ -396,6 +397,8 @@ async function fetchAdditionalPages(url) {
             prix,
             
         })
+
+        printProducts(dairy4);
   
         })
 
@@ -410,7 +413,9 @@ async function fetchAdditionalPages(url) {
       const nextPageUrl = getNextPageUrl($);
       if (nextPageUrl) {
         // Fetching additional pages recursively
+        console.log('from NextPageURL 2:', nextPageUrl)
         fetchAdditionalPages(nextPageUrl);
+
       }
     }
   } catch (error) {
@@ -419,23 +424,23 @@ async function fetchAdditionalPages(url) {
 }
 
 // Function to print product details
-function printProducts(names, prices) {
+function printProducts(products) {
   const dairy5 = []
-  for (let i = 0; i < names.length; i++) {
+  for (let i = 0; i < products.length; i++) {
     // console.log('Product Name:', nom[i]);
     // console.log('Price:', prix[i]);
     // console.log('----------------------');
   //   const nom = names[i]
   //   const prix = prices[i]
     dairy5.push({
-      names,
-      prices,
+      products
   })
-  console.log('items from dairy 5:', dairy5)
+  // console.log('items from dairy 5:', dairy5)
   }
-  console.log('Number of items:', names.length);
+  // console.log('Number of items:', names.length);
   // res.send(dairy3);
 }
+
 
 // Function to extract the URL of the next page
 function getNextPageUrl($) {
