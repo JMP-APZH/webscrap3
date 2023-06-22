@@ -310,12 +310,12 @@ headers: {
 
 
 router.get('/scrapedairy3', (req, res) => {
-  const url = 'https://martinique.123-click.com/store/frais';
-
+  const baseUrl = 'https://martinique.123-click.com';
+  const initialUrl = `${baseUrl}/store/frais`;
   
 
 
-axios.get(url, {
+axios.get(initialUrl, {
   headers: {
       'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3',
   },
@@ -337,28 +337,17 @@ axios.get(url, {
       $('div.product-list-affichage-mobile', response.data).each(function() {
         const nom = $(this).find('a').attr('title')
         const prix = $(this).find('p.price-full').text() 
+
         dairy3.push({
           nom,
           prix,
           
       })
 
+      printProducts(nom, prix);
+
       })
-      
-      // printProducts(nom, prix);
-      
-      
-      
-      // res.send(dairy3);
-          // console.log('From Dairy 3:', dairy3)
 
-      // Scraping product prices
-      // const productPrices = $('p.price-full')
-      //   .map((_, element) => $(element).text())
-      //   .get();
-
-      // Outputting the scraped data
-      // printProducts(productNames, productPrices);
 
       // Checking if there are more items to load
       const nextPageUrl = getNextPageUrl($);
@@ -374,9 +363,9 @@ axios.get(url, {
   });
 
 // Function to fetch additional pages
-async function fetchAdditionalPages(nextPageUrl) {
+async function fetchAdditionalPages(url) {
   try {
-    const response = await axios.get(nextPageUrl, {
+    const response = await axios.get(url, {
       // headers: {
       //     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3',
       // },
@@ -430,32 +419,32 @@ async function fetchAdditionalPages(nextPageUrl) {
 }
 
 // Function to print product details
-function printProducts(nom, prix) {
-  // const dairy3 = []
-  for (let i = 0; i < nom.length; i++) {
-    console.log('Product Name:', nom[i]);
-    console.log('Price:', prix[i]);
-    console.log('----------------------');
+function printProducts(names, prices) {
+  const dairy5 = []
+  for (let i = 0; i < names.length; i++) {
+    // console.log('Product Name:', nom[i]);
+    // console.log('Price:', prix[i]);
+    // console.log('----------------------');
   //   const nom = names[i]
   //   const prix = prices[i]
-  //   dairy3.push({
-  //     nom,
-  //     prix,
-  // })
-  
+    dairy5.push({
+      names,
+      prices,
+  })
+  console.log('items from dairy 5:', dairy5)
   }
-  console.log('Number of items:', nom.length);
+  console.log('Number of items:', names.length);
   // res.send(dairy3);
 }
 
 // Function to extract the URL of the next page
 function getNextPageUrl($) {
   const nextPageLink = $('.pagination')
-    .find('a')
+    .find('.next_page')
     .attr('href');
 
   if (nextPageLink) {
-    return `https://martinique.123-click.com${nextPageLink}`;
+    return `${baseUrl}${nextPageLink}`;
   }
 
   return null;
