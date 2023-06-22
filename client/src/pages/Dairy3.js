@@ -38,7 +38,7 @@ const Dairy3 = () => {
               <div key={index} className="text-center p-4 border m-2">
               <div>
                   <p> {item.name.nom} </p>
-                  <p> {item.price}</p>
+                  <p> {item.name.prix}</p>
               </div>
               
                 {/* <div className='flex w-24 absolute '>

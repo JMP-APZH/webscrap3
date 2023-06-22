@@ -360,9 +360,12 @@ async function fetchAdditionalPages(url) {
     // const productPrices = $('p.price-full')
     // .map((_, element) => $(element).text())
     // .get();
+    // let uniqueDairyPrice = [...new Set(productPrices)]
+    //   const productPrices2 = uniqueDairyPrice
 
     // Adding scraped data to the final array
-    addDataToFinalArray(productNames, productPrices);
+    // addDataToFinalArray(productNames, productPrices2);
+    addDataToFinalArray(productNames)
 
      // Checking if there are more items to load
      const nextPageUrl = getNextPageUrl($);
@@ -377,11 +380,12 @@ async function fetchAdditionalPages(url) {
 }
 
 // Function to add scraped data to the final array
-function addDataToFinalArray(names, prices) {
+// function addDataToFinalArray(names, prices) {
+  function addDataToFinalArray(names) {
   for (let i = 0; i < names.length; i++) {
     scrapedData.push({
       name: names[i],
-      price: prices[i]
+      // price: prices[i]
     });
   }
 }
