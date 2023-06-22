@@ -308,149 +308,84 @@ headers: {
 
 // }
 
+// Route to scrape and send the data to the client
+router.get('/scrapedairy3', async (req, res) => {
+  try {
+    const scrapedData = await scrapeData();
+    res.json(scrapedData);
+  } catch (error) {
+    console.log('An error occurred:', error);
+    res.status(500).json({ error: 'An error occurred while scraping the data.' });
+  }
+});
 
-router.get('/scrapedairy3', (req, res) => {
+// Function to scrape the data
+async function scrapeData() {
   const baseUrl = 'https://martinique.123-click.com';
   const initialUrl = `${baseUrl}/store/frais`;
-  
+  const scrapedData = []
 
-
-axios.get(initialUrl, {
-  headers: {
-      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3',
-  },
-  })
-  .then(response => {
-    if (response.status === 200) {
-      // const html = response.data;
-      // const $ = cheerio.load(html);
-
-      // Scraping product names
-      // const productNames = $('a.title')
-      //   .map((_, element) => $(element).text())
-      //   .get();
-
-      const $ = cheerio.load(response.data);
-
-      const dairy3 = []
-
-      $('div.product-list-affichage-mobile', response.data).each(function() {
-        const nom = $(this).find('a').attr('title')
-        const prix = $(this).find('p.price-full').text() 
-
-        dairy3.push({
-          nom,
-          prix,
-          
-      })
-
-      // printProducts(dairy3);
-      // console.log('from PrintProducts: ', dairy3)
-      // const print1 = printProducts(dairy3);
-      // console.log('1st set of products: ', print1)
-
-      })
-      const print1 = printProducts(dairy3);
-      console.log('1st set of products: ', print1)
-
-      // Checking if there are more items to load
-      const nextPageUrl = getNextPageUrl($);
-      if (nextPageUrl) {
-        console.log('from NextPageURL:', nextPageUrl)
-        // Fetching additional pages
-        fetchAdditionalPages(nextPageUrl);
-      }
-    }
-  })
-  .catch(error => {
-    console.log('An error occurred:', error);
-  });
 
 // Function to fetch additional pages
 async function fetchAdditionalPages(url) {
   try {
-    const response = await axios.get(url, {
-      headers: {
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3',
-      },
-      });
+    const response = await axios.get(url);
     if (response.status === 200) {
-    //   const html = response.data;
-    //   const $ = cheerio.load(html);
+      const $ = cheerio.load(response.data);
 
-    //   // Scraping product names
-    //   const productNames = $('a.title')
-    //     .map((_, element) => $(element).text())
-    //     .get();
+      // Scraping product names
+    // const productNames = $('.title a')
+    // const productNames = $(this).find('a').attr('title')
+    // .map((_, element) => $(element).text())
+    // .get();
 
-    //   // Scraping product prices
-    //   const productPrices = $('p.price-full')
-    //     .map((_, element) => $(element).text())
-    //     .get();
+    const dairy0 = []
+    $('div.product-list-affichage-mobile', response.data).each(function() {
+              const nom = $(this).find('a').attr('title')
+              const prix = $(this).find('p.price-full').text()
+              
+              dairy0.push({
+                          nom,
+                          prix,
+                          
+                      })
 
-        const $ = cheerio.load(response.data);
+                    })
+      let uniqueDairy0 = [...new Set(dairy0)]
+      const productNames = uniqueDairy0
 
-        const dairy4 = []
-  
-        $('div.product-list-affichage-mobile', response.data).each(function() {
-          const nom = $(this).find('a').attr('title')
-          const prix = $(this).find('p.price-full').text() 
-          dairy4.push({
-            nom,
-            prix,
-            
-        })
+    console.log('from ProductNames fetch: ', productNames)
 
-        // const print2 = printProducts(dairy4);
-        // console.log('2nd set of products: ', print2)
-  
-        })
+    // Scraping product prices
+    const productPrices = $('p.price-full')
+    .map((_, element) => $(element).text())
+    .get();
 
-        const print2 = printProducts(dairy4);
-        console.log('2nd set of products: ', print2)
-        console.log('2nd set of products: ', dairy4)
+    // Adding scraped data to the final array
+    addDataToFinalArray(productNames, productPrices);
 
-        // res.send(dairy4);
-        // console.log('From Dairy 4:', dairy4)
-
-      // Outputting the scraped data
-      // printProducts(productNames, productPrices);
-      // console.log('Check Product Name:', productNames);
-
-      // Checking if there are more items to load
-      const nextPageUrl = getNextPageUrl($);
-      if (nextPageUrl) {
-        // Fetching additional pages recursively
-        console.log('from NextPageURL 2:', nextPageUrl)
-        fetchAdditionalPages(nextPageUrl);
-
-      }
+     // Checking if there are more items to load
+     const nextPageUrl = getNextPageUrl($);
+     if (nextPageUrl) {
+       // Fetching additional pages recursively
+       await fetchAdditionalPages(nextPageUrl);
+     }
     }
-  } catch (error) {
-    console.log('An error occurred:', error);
-  }
+    } catch (error) {
+      throw error;
+    }
 }
 
-// Function to print product details
-function printProducts(products) {
-  const dairy5 = []
-  for (let i = 0; i < products.length; i++) {
-    // console.log('Product Name:', nom[i]);
-    // console.log('Price:', prix[i]);
-    // console.log('----------------------');
-  //   const nom = names[i]
-  //   const prix = prices[i]
-    dairy5.push({
-      products
-  })
-  // console.log('2nd set of products: ', dairy5)
-  // console.log('items from dairy 5:', dairy5)
+// Function to add scraped data to the final array
+function addDataToFinalArray(names, prices) {
+  for (let i = 0; i < names.length; i++) {
+    scrapedData.push({
+      name: names[i],
+      price: prices[i]
+    });
   }
-  // console.log('Number of items:', names.length);
-  // res.send(dairy3);
 }
-
-
+     
 // Function to extract the URL of the next page
 function getNextPageUrl($) {
   const nextPageLink = $('.pagination')
@@ -464,7 +399,196 @@ function getNextPageUrl($) {
   return null;
 }
 
-})
+// Start scraping by fetching the initial page
+await fetchAdditionalPages(initialUrl);
+
+return scrapedData;
+console.log('from the first scrap: ', scrapedData)
+}
+    
+ 
+
+
+
+
+
+
+// axios.get(initialUrl, {
+//   // headers: {
+//   //     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3',
+//   // },
+//   })
+//   .then(response => {
+//     if (response.status === 200) {
+//       // const html = response.data;
+//       // const $ = cheerio.load(html);
+
+//       // Scraping product names
+//       // const productNames = $('a.title')
+//       //   .map((_, element) => $(element).text())
+//       //   .get();
+
+//       const $ = cheerio.load(response.data);
+
+//       const dairy3 = []
+
+//       $('div.product-list-affichage-mobile', response.data).each(function() {
+//         const nom = $(this).find('a').attr('title')
+//         const prix = $(this).find('p.price-full').text() 
+
+//         dairy3.push({
+//           nom,
+//           prix,
+          
+//       })
+
+//       // printProducts(dairy3);
+//       // console.log('from PrintProducts: ', dairy3)
+//       // const print1 = printProducts(dairy3);
+//       // console.log('1st set of products: ', print1)
+
+//       })
+//       const print1 = printProducts(dairy3);
+//       let uniqueDairy3 = [...new Set(dairy3)]
+//       // console.log('1st set of products: ', uniqueDairy3)
+//       allDairy.push(...uniqueDairy3)
+
+//       // Checking if there are more items to load
+//       const nextPageUrl = getNextPageUrl($);
+//       if (nextPageUrl) {
+//         console.log('from NextPageURL:', nextPageUrl)
+//         // Fetching additional pages
+//         fetchAdditionalPages(nextPageUrl);
+//       }
+//     }
+//   })
+//   .catch(error => {
+//     console.log('An error occurred:', error);
+//   });
+
+// // Function to fetch additional pages
+// async function fetchAdditionalPages(url) {
+//   try {
+//     const response = await axios.get(url, {
+//       // headers: {
+//       //     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3',
+//       // },
+//       });
+//     if (response.status === 200) {
+//     //   const html = response.data;
+//     //   const $ = cheerio.load(html);
+
+//     //   // Scraping product names
+//     //   const productNames = $('a.title')
+//     //     .map((_, element) => $(element).text())
+//     //     .get();
+
+//     //   // Scraping product prices
+//     //   const productPrices = $('p.price-full')
+//     //     .map((_, element) => $(element).text())
+//     //     .get();
+
+//         const $ = cheerio.load(response.data);
+
+//         const dairy4 = []
+  
+//         $('div.product-list-affichage-mobile', response.data).each(function() {
+//           const nom = $(this).find('a').attr('title')
+//           const prix = $(this).find('p.price-full').text() 
+//           dairy4.push({
+//             nom,
+//             prix,
+            
+//         })
+
+//         // const print2 = printProducts(dairy4);
+//         // console.log('2nd set of products: ', print2)
+  
+//         })
+
+//         // const print2 = printProducts(dairy4);
+//         let uniqueDairy4 = [...new Set(dairy4)]
+//         // console.log('2nd set of products: ', print2)
+//         // console.log('2nd set of products: ', uniqueDairy4)
+//         allDairy.push(...uniqueDairy4)
+//         // console.log('From all Dairy:', allDairy)
+
+//         // res.send(dairy4);
+//         // console.log('From Dairy 4:', dairy4)
+
+//       // Outputting the scraped data
+//       // printProducts(productNames, productPrices);
+//       // console.log('Check Product Name:', productNames);
+
+//       // Checking if there are more items to load
+//       const nextPageUrl = getNextPageUrl($);
+//       if (nextPageUrl) {
+//         // Fetching additional pages recursively
+//         console.log('from NextPageURL 2:', nextPageUrl)
+//         fetchAdditionalPages(nextPageUrl);
+
+//       }
+//     }
+    
+//   } catch (error) {
+//     console.log('An error occurred:', error);
+//   }
+// }
+
+
+// // Function to print product details
+// function printProducts(products) {
+//   const dairy5 = []
+//   dairy5.push(...allDairy)
+//   // res.send(allDairy)
+//   res.send(dairy5)
+//   // for (let i = 0; i < products.length; i++) {
+//   //   // console.log('Product Name:', nom[i]);
+//   //   // console.log('Price:', prix[i]);
+//   //   // console.log('----------------------');
+//   // //   const nom = names[i]
+//   // //   const prix = prices[i]
+//   //   dairy5.push({
+//   //     products
+//   // })
+//   // // console.log('2nd set of products: ', dairy5)
+//   // // console.log('items from dairy 5:', dairy5)
+//   // }
+//   // console.log('Number of items:', names.length);
+//   // res.send(dairy3);
+// }
+
+// function getNextPageUrl($) {
+//   const nextPageLink = $('.pagination')
+//     .find('.next_page')
+//     .attr('href');
+
+//   if (nextPageLink) {
+//     return `${baseUrl}${nextPageLink}`;
+//   }
+
+//   return null;
+// }
+
+// function addDairiesToFinalArray(names, prices) {
+//   axios.get('http://localhost:5001/scrapedairy3', {
+//     params: {
+//       names,
+//       prices
+//     }
+// })
+// .then(response => {
+//   console.log('Data to be sent to client: ', response.data)
+// })
+// .catch(error => {
+//   console.log('Error sending data to the server', error)
+// })
+
+
+// // Function to extract the URL of the next page
+
+
+// }
 
 
 
