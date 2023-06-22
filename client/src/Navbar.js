@@ -11,6 +11,7 @@ export default function Navbar() {
         <CustomLink to="/boissons" className='text-white font-bold border p-2'>Boissons</CustomLink>
         <CustomLink to="/dairy" className='text-white font-bold border p-2'>Dairy</CustomLink>
         <CustomLink to="/dairy2" className='text-white font-bold border p-2'>Dairy 2</CustomLink>
+        <CustomLink to="/dairy3" className='text-white font-bold border p-2'>Dairy 3</CustomLink>
         <CustomLink to="/entretien" className='text-white font-bold border p-2'>Entretien</CustomLink>
         </div>
         <div className="flex">

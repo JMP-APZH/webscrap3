@@ -309,6 +309,100 @@ router.get('/scrapedairy2', (req, res) => {
 // }
 
 
+router.get('/scrapedairy3', (req, res) => {
+  const url = 'https://martinique.123-click.com/store/frais';
+
+axios.get(url)
+  .then(response => {
+    if (response.status === 200) {
+      const html = response.data;
+      const $ = cheerio.load(html);
+
+      // Scraping product names
+      const productNames = $('.product-title a')
+        .map((_, element) => $(element).text())
+        .get();
+
+      // Scraping product prices
+      const productPrices = $('.price')
+        .map((_, element) => $(element).text())
+        .get();
+
+      // Outputting the scraped data
+      printProducts(productNames, productPrices);
+
+      // Checking if there are more items to load
+      const nextPageUrl = getNextPageUrl($);
+      if (nextPageUrl) {
+        // Fetching additional pages
+        fetchAdditionalPages(nextPageUrl);
+      }
+    }
+  })
+  .catch(error => {
+    console.log('An error occurred:', error);
+  });
+
+// Function to fetch additional pages
+async function fetchAdditionalPages(url) {
+  try {
+    const response = await axios.get(url);
+    if (response.status === 200) {
+      const html = response.data;
+      const $ = cheerio.load(html);
+
+      // Scraping product names
+      const productNames = $('.product-title a')
+        .map((_, element) => $(element).text())
+        .get();
+
+      // Scraping product prices
+      const productPrices = $('.price')
+        .map((_, element) => $(element).text())
+        .get();
+
+      // Outputting the scraped data
+      printProducts(productNames, productPrices);
+
+      // Checking if there are more items to load
+      const nextPageUrl = getNextPageUrl($);
+      if (nextPageUrl) {
+        // Fetching additional pages recursively
+        fetchAdditionalPages(nextPageUrl);
+      }
+    }
+  } catch (error) {
+    console.log('An error occurred:', error);
+  }
+}
+
+// Function to print product details
+function printProducts(names, prices) {
+  for (let i = 0; i < names.length; i++) {
+    console.log('Product Name:', names[i]);
+    console.log('Price:', prices[i]);
+    console.log('----------------------');
+    console.log('Number of items:', names.length);
+  }
+}
+
+// Function to extract the URL of the next page
+function getNextPageUrl($) {
+  const nextPageLink = $('.next')
+    .find('a')
+    .attr('href');
+
+  if (nextPageLink) {
+    return `https://martinique.123-click.com${nextPageLink}`;
+  }
+
+  return null;
+}
+
+}
+
+
+
 
 
 router.get('/scrapeentretien', (req, res) => {

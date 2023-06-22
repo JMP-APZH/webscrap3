@@ -12,6 +12,7 @@ import Entretien from './pages/Entretien';
 import FruitsLegumes from './pages/FruitsLegumes';
 import Surgeles from './pages/Sugeles';
 import ViandesPoissons from './pages/ViandesPoissons';
+import Dairy3 from './pages/Dairy3';
 
 function App() {
   const [articles, setArticles] = useState([]);
@@ -42,6 +43,7 @@ function App() {
             <Route path="/boissons" element={<Boissons />} />
             <Route path="/dairy" element={<Dairy />} />
             <Route path="/dairy2" element={<Dairy2 />} />
+            <Route path="/dairy3" element={<Dairy3 />} />
             <Route path="/entretien" element={<Entretien />} />
             <Route path="/fruits-legumes" element={<FruitsLegumes />} />
             <Route path="/surgeles" element={<Surgeles />} />
