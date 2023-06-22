@@ -312,6 +312,9 @@ headers: {
 router.get('/scrapedairy3', (req, res) => {
   const url = 'https://martinique.123-click.com/store/frais';
 
+  
+
+
 axios.get(url, {
   headers: {
       'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3',
@@ -319,25 +322,48 @@ axios.get(url, {
   })
   .then(response => {
     if (response.status === 200) {
-      const html = response.data;
-      const $ = cheerio.load(html);
+      // const html = response.data;
+      // const $ = cheerio.load(html);
 
       // Scraping product names
-      const productNames = $('.product-title a')
-        .map((_, element) => $(element).text())
-        .get();
+      // const productNames = $('a.title')
+      //   .map((_, element) => $(element).text())
+      //   .get();
+
+      const $ = cheerio.load(response.data);
+
+      const dairy3 = []
+
+      $('div.product-list-affichage-mobile', response.data).each(function() {
+        const nom = $(this).find('a').attr('title')
+        const prix = $(this).find('p.price-full').text() 
+        dairy3.push({
+          nom,
+          prix,
+          
+      })
+
+      })
+      
+      // printProducts(nom, prix);
+      
+      
+      
+      // res.send(dairy3);
+          // console.log('From Dairy 3:', dairy3)
 
       // Scraping product prices
-      const productPrices = $('.price')
-        .map((_, element) => $(element).text())
-        .get();
+      // const productPrices = $('p.price-full')
+      //   .map((_, element) => $(element).text())
+      //   .get();
 
       // Outputting the scraped data
-      printProducts(productNames, productPrices);
+      // printProducts(productNames, productPrices);
 
       // Checking if there are more items to load
       const nextPageUrl = getNextPageUrl($);
       if (nextPageUrl) {
+        console.log('from NextPageURL:', nextPageUrl)
         // Fetching additional pages
         fetchAdditionalPages(nextPageUrl);
       }
@@ -348,25 +374,48 @@ axios.get(url, {
   });
 
 // Function to fetch additional pages
-async function fetchAdditionalPages(url) {
+async function fetchAdditionalPages(nextPageUrl) {
   try {
-    const response = await axios.get(url);
+    const response = await axios.get(nextPageUrl, {
+      // headers: {
+      //     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3',
+      // },
+      });
     if (response.status === 200) {
-      const html = response.data;
-      const $ = cheerio.load(html);
+    //   const html = response.data;
+    //   const $ = cheerio.load(html);
 
-      // Scraping product names
-      const productNames = $('.product-title a')
-        .map((_, element) => $(element).text())
-        .get();
+    //   // Scraping product names
+    //   const productNames = $('a.title')
+    //     .map((_, element) => $(element).text())
+    //     .get();
 
-      // Scraping product prices
-      const productPrices = $('.price')
-        .map((_, element) => $(element).text())
-        .get();
+    //   // Scraping product prices
+    //   const productPrices = $('p.price-full')
+    //     .map((_, element) => $(element).text())
+    //     .get();
+
+        const $ = cheerio.load(response.data);
+
+        const dairy4 = []
+  
+        $('div.product-list-affichage-mobile', response.data).each(function() {
+          const nom = $(this).find('a').attr('title')
+          const prix = $(this).find('p.price-full').text() 
+          dairy4.push({
+            nom,
+            prix,
+            
+        })
+  
+        })
+
+        // res.send(dairy4);
+        // console.log('From Dairy 4:', dairy4)
 
       // Outputting the scraped data
-      printProducts(productNames, productPrices);
+      // printProducts(productNames, productPrices);
+      // console.log('Check Product Name:', productNames);
 
       // Checking if there are more items to load
       const nextPageUrl = getNextPageUrl($);
@@ -381,20 +430,27 @@ async function fetchAdditionalPages(url) {
 }
 
 // Function to print product details
-function printProducts(names, prices) {
-  for (let i = 0; i < names.length; i++) {
-    console.log('Product Name:', names[i]);
-    console.log('Price:', prices[i]);
+function printProducts(nom, prix) {
+  // const dairy3 = []
+  for (let i = 0; i < nom.length; i++) {
+    console.log('Product Name:', nom[i]);
+    console.log('Price:', prix[i]);
     console.log('----------------------');
-    console.log('Number of items:', names.length);
-    
+  //   const nom = names[i]
+  //   const prix = prices[i]
+  //   dairy3.push({
+  //     nom,
+  //     prix,
+  // })
+  
   }
-  res.send(names);
+  console.log('Number of items:', nom.length);
+  // res.send(dairy3);
 }
 
 // Function to extract the URL of the next page
 function getNextPageUrl($) {
-  const nextPageLink = $('.next')
+  const nextPageLink = $('.pagination')
     .find('a')
     .attr('href');
 
