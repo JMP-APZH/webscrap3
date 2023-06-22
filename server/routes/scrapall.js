@@ -344,11 +344,14 @@ axios.get(initialUrl, {
           
       })
 
-      printProducts(dairy3);
+      // printProducts(dairy3);
       // console.log('from PrintProducts: ', dairy3)
+      // const print1 = printProducts(dairy3);
+      // console.log('1st set of products: ', print1)
 
       })
-
+      const print1 = printProducts(dairy3);
+      console.log('1st set of products: ', print1)
 
       // Checking if there are more items to load
       const nextPageUrl = getNextPageUrl($);
@@ -398,9 +401,14 @@ async function fetchAdditionalPages(url) {
             
         })
 
-        printProducts(dairy4);
+        // const print2 = printProducts(dairy4);
+        // console.log('2nd set of products: ', print2)
   
         })
+
+        const print2 = printProducts(dairy4);
+        console.log('2nd set of products: ', print2)
+        console.log('2nd set of products: ', dairy4)
 
         // res.send(dairy4);
         // console.log('From Dairy 4:', dairy4)
@@ -435,6 +443,7 @@ function printProducts(products) {
     dairy5.push({
       products
   })
+  // console.log('2nd set of products: ', dairy5)
   // console.log('items from dairy 5:', dairy5)
   }
   // console.log('Number of items:', names.length);
