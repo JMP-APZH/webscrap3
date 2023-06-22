@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon mainserver.js",
     "build": "npm i",
-    "preinstall":"cd $(pwd)",
+    "preinstall": "cd $(pwd)",
     "start": "nodemon mainserver.js"
   },
   "repository": {
@@ -25,6 +25,7 @@
     "axios": "^1.4.0",
     "cheerio": "^1.0.0-rc.12",
     "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
     "ejs": "^3.1.9",
     "express": "^4.18.2",
     "flowbite": "^1.6.5",
