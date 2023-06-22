@@ -37,8 +37,8 @@ const Dairy3 = () => {
             {data.map((item, index) => (
               <div key={index} className="text-center p-4 border m-2">
               <div>
-                  <p> {item.title} </p>
-                  <p> {item.image}</p>
+                  <p> {item.name.nom} </p>
+                  <p> {item.price}</p>
               </div>
               
                 {/* <div className='flex w-24 absolute '>
