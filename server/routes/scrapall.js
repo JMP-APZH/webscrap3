@@ -245,7 +245,7 @@ async function fetchAdditionalPages(url) {
   function addDataToFinalArray(dairy) {
   for (let i = 0; i < dairy.length; i++) {
     scrapedData.push({
-      dairy: names[i],
+      dairy: dairy[i],
       // price: prices[i]
     });
   }
