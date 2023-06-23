@@ -39,7 +39,7 @@ const Dairy3 = () => {
               <div className='flex w-24 absolute '>
                   <img
                     className="p-4"
-                    src={item.nutrifull}
+                    src={item.dairy.nutrifull}
                     width="150"
                     height="150"
                   />
@@ -48,24 +48,24 @@ const Dairy3 = () => {
                 <div className='flex gap-6 justify-center'>
                   <img
                     className=""
-                    src={item.img}
-                    alt={item.nom}
+                    src={item.dairy.img}
+                    alt={item.dairy.nom}
                     width="200"
                     height="200"
                   />
                 </div>
                 
                 <div className='flex justify-between items-center'>
-                  <p className='text-center font-semibold px-4'> {item.nom} </p>
+                  <p className='text-center font-semibold px-4'> {item.dairy.nom} </p>
                   <div>
                     <p className='text-center font-semibold p-2 text-red-700 border border-blue-700 mb-1 text-xs'> {item.prix} </p>
                     <p className='text-center font-semibold p-2 text-green-700 border border-red-700 text-xs'> {item.prixspecial} </p>
-                    <p className='text-xs'> {item.prixunite} </p>
+                    <p className='text-xs'> {item.dairy.prixunite} </p>
                   </div>
                 </div>
               
                 <div className='flex flex-row items-center'>
-                  <p className='text-blue-600 font-bold text-xs px-3'> {item.quantite2} </p>
+                  <p className='text-blue-600 font-bold text-xs px-3'> {item.dairy.quantite2} </p>
                 </div>
               </div>
             ))}
