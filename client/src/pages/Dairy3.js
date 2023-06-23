@@ -36,12 +36,7 @@ const Dairy3 = () => {
           <div className='grid grid-cols-2 bg-white h-auto'>
             {data.map((item, index) => (
               <div key={index} className="text-center p-4 border m-2">
-              <div>
-                  <p> {item.name.nom} </p>
-                  <p> {item.name.prix}</p>
-              </div>
-              
-                {/* <div className='flex w-24 absolute '>
+              <div className='flex w-24 absolute '>
                   <img
                     className="p-4"
                     src={item.nutrifull}
@@ -71,7 +66,7 @@ const Dairy3 = () => {
               
                 <div className='flex flex-row items-center'>
                   <p className='text-blue-600 font-bold text-xs px-3'> {item.quantite2} </p>
-                </div>           */}
+                </div>
               </div>
             ))}
           </div>
