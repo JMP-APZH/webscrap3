@@ -58,8 +58,8 @@ const Dairy3 = () => {
                 <div className='flex justify-between items-center'>
                   <p className='text-center font-semibold px-4'> {item.dairy.nom} </p>
                   <div>
-                    <p className='text-center font-semibold p-2 text-red-700 border border-blue-700 mb-1 text-xs'> {item.prix} </p>
-                    <p className='text-center font-semibold p-2 text-green-700 border border-red-700 text-xs'> {item.prixspecial} </p>
+                    <p className='text-center font-semibold p-2 text-red-700 border border-blue-700 mb-1 text-xs'> {item.dairy.prix} </p>
+                    <p className='text-center font-semibold p-2 text-green-700 border border-red-700 text-xs'> {item.dairy.prixspecial} </p>
                     <p className='text-xs'> {item.dairy.prixunite} </p>
                   </div>
                 </div>
